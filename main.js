@@ -1,3 +1,8 @@
+import {
+  saveIntoLocalStorage,
+  getDataFromLocalStorage,
+} from "./js/localStorage.js";
+
 const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
 
@@ -25,7 +30,15 @@ async function getStudentsClass(teacherName, callback) {
 //     titleRow.innerHTML += `${res.data.firstName}<br>`;
 //   }
 
+const createTitleRow = (keys) => {
+  Object.keys(keys).forEach((title) => {
+    const th = document.createElement("th");
+    th.innerText = title;
+    titleRow.appendChild(th);
+  });
+};
 const createRow = (students) => {
+  createTitleRow(students[0]);
   for (const studentObject of students) {
     // Change it later
     const tr = document.createElement("tr");
@@ -40,22 +53,30 @@ const createRow = (students) => {
 
 const getStudents = async () => {
   const students = await getStudentsClass("toam");
-  try {
-    const responses = await Promise.all(
-      students.map((student) =>
-        axios.get(`https://capsules-asb6.herokuapp.com/api/user/${student.id}`)
-      )
-    );
-    const data = responses.map((result) => result.data); // data from response all
+  const dataFromLocalStorage = getDataFromLocalStorage();
+  if (!dataFromLocalStorage) {
+    titleRow.innerHTML = "Loading....";
+    console.log("call Api");
+    try {
+      const responses = await Promise.all(
+        students.map((student) =>
+          axios.get(
+            `https://capsules-asb6.herokuapp.com/api/user/${student.id}`
+          )
+        )
+      );
+      titleRow.innerHTML = "";
+      const data = responses.map((result) => result.data); // data from response all
+      saveIntoLocalStorage(data);
 
-    Object.keys(data[0]).forEach((title) => {
-      const th = document.createElement("th");
-      th.innerText = title;
-      titleRow.appendChild(th);
-    });
-    createRow(data);
-  } catch (error) {
-    console.log("Something went wrong", error);
+      createRow(data);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  } else {
+    console.log("call Local Storage");
+
+    createRow(dataFromLocalStorage);
   }
 };
 
