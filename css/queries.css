@@ -1,0 +1,18 @@
+@media (max-width: 960px) {
+  :root {
+    font-size: 12px;
+  }
+}
+@media (max-width: 760px) {
+  :root {
+    font-size: 10px;
+  }
+}
+@media (max-width: 480px) {
+  #container {
+    display: none;
+  }
+  .rotate-msg {
+    display: flex;
+  }
+}

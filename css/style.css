@@ -14,6 +14,7 @@
   justify-content: center;
   flex-direction: column;
   background-color: #f9f8eb;
+  padding: 0 2rem;
 }
 table {
   font-size: 1.25rem;
@@ -21,7 +22,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
-  width: 60%;
+  width: 100%;
 }
 table th {
   font-size: 1.5rem;
@@ -45,4 +46,14 @@ tr:nth-child(even) {
 }
 tr:nth-child(odd) {
   background-color: #dae5d0;
+}
+
+.rotate-msg {
+  display: none;
+  text-align: center;
+  background-color: #dae5d0;
+  color: #000;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
