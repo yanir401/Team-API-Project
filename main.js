@@ -5,7 +5,6 @@ import {
 
 const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
-
 const header = document.getElementById("header");
 
 const h2 = document.createElement("h2");
@@ -18,18 +17,6 @@ input.placeholder = "Search...";
 header.appendChild(input);
 
 async function getStudentsClass(teacherName, callback) {
-  // getStudentsClass
-  try {
-    const { data: students } = await axios.get(
-      `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
-    );
-    return students;
-  } catch (error) {
-    console.error("Something went wrong", error);
-  }
-
-}
-
   const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
   if (!dataFromLocalStorage)
     try {
@@ -80,13 +67,16 @@ const createRow = (students) => {
       td.innerText = studentObject[key];
       tr.appendChild(td);
     }
+
     createButtons(tr);
-
-
+    table.appendChild(tr);
+  }
+};
 
 const getStudents = async () => {
   const students = await getStudentsClass("toam");
   const dataFromLocalStorage = getDataFromLocalStorage("students");
+
   if (!dataFromLocalStorage) {
     titleRow.innerHTML = "Loading....";
     console.log("call Api");
@@ -106,10 +96,7 @@ const getStudents = async () => {
     } catch (error) {
       console.log("Something went wrong", error);
     }
-
   } else createRow(dataFromLocalStorage);
-
-
 };
 
 getStudents();
