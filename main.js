@@ -37,6 +37,13 @@ const createTitleRow = (keys) => {
     titleRow.appendChild(th);
   });
 };
+
+// const createButtons = (tableRow) => {
+//   const btn = document.createElement("button");
+//   btn.innerHTML = "Edit";
+//   tableRow.appendChild(btn);
+// };
+
 const createRow = (students) => {
   createTitleRow(students[0]);
   for (const studentObject of students) {
@@ -47,6 +54,8 @@ const createRow = (students) => {
       td.innerText = studentObject[key];
       tr.appendChild(td);
     }
+    // createButtons(tr);
+
     table.appendChild(tr);
   }
 };
