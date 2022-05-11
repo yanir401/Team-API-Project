@@ -1,25 +1,33 @@
 import {
-    saveIntoLocalStorage,
-    getDataFromLocalStorage,
+  saveIntoLocalStorage,
+  getDataFromLocalStorage,
 } from "./js/localStorage.js";
 
 const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
-table.addEventListener("click", (e) => {
-  console.dir(e.parentElement);
-});
+
+const header = document.getElementById("header");
+
+const h2 = document.createElement("h2");
+h2.innerText = "My Capsule";
+header.appendChild(h2);
+
+const input = document.createElement("input");
+input.type = "text";
+input.placeholder = "Search...";
+header.appendChild(input);
 
 async function getStudentsClass(teacherName, callback) {
+  // getStudentsClass
+  try {
+    const { data: students } = await axios.get(
+      `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
+    );
+    return students;
+  } catch (error) {
+    console.error("Something went wrong", error);
+  }
 
-    // getStudentsClass
-    try {
-        const { data: students } = await axios.get(
-            `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
-        );
-        return students;
-    } catch (error) {
-        console.error("Something went wrong", error);
-    }
 }
 
   const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
@@ -37,40 +45,43 @@ async function getStudentsClass(teacherName, callback) {
   else return dataFromLocalStorage;
 }
 
+//change it later
 const createTitleRow = (keys) => {
-    Object.keys(keys).forEach((title) => {
-        const th = document.createElement("th");
-        th.innerText = title;
-        titleRow.appendChild(th);
-    });
+  const select = document.createElement("select");
+  // select.innerText = "Everything";
+  // header.appendChild(select);
+  Object.keys(keys).forEach((title) => {
+    const th = document.createElement("th");
+    th.innerText = title;
+    titleRow.appendChild(th);
+    const option = document.createElement("option");
+    option.innerText = title;
+    select.appendChild(option);
+  });
+  header.appendChild(select);
 };
 
 const createButtons = (tableRow) => {
-    const btnEdit = document.createElement("button");
-    const btnDelete = document.createElement("button");
-    btnEdit.innerHTML = "Edit";
-    btnDelete.innerHTML = "delete";
-    tableRow.appendChild(btnEdit);
-    tableRow.appendChild(btnDelete);
-
+  const btnEdit = document.createElement("button");
+  const btnDelete = document.createElement("button");
+  btnEdit.innerHTML = "Edit";
+  btnDelete.innerHTML = "delete";
+  tableRow.appendChild(btnEdit);
+  tableRow.appendChild(btnDelete);
 };
 
 const createRow = (students) => {
-    createTitleRow(students[0]);
-    for (const studentObject of students) {
-        // Change it later
-        const tr = document.createElement("tr");
-        for (const key in studentObject) {
-            const td = document.createElement("td");
-            td.innerText = studentObject[key];
-            tr.appendChild(td);
-        }
-        createButtons(tr);
-
-
-        table.appendChild(tr);
+  createTitleRow(students[0]);
+  for (const studentObject of students) {
+    // Change it later
+    const tr = document.createElement("tr");
+    for (const key in studentObject) {
+      const td = document.createElement("td");
+      td.innerText = studentObject[key];
+      tr.appendChild(td);
     }
-};
+    createButtons(tr);
+
 
 
 const getStudents = async () => {
@@ -95,7 +106,9 @@ const getStudents = async () => {
     } catch (error) {
       console.log("Something went wrong", error);
     }
+
   } else createRow(dataFromLocalStorage);
+
 
 };
 
