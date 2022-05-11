@@ -1,6 +1,6 @@
 import {
-  saveIntoLocalStorage,
-  getDataFromLocalStorage,
+    saveIntoLocalStorage,
+    getDataFromLocalStorage,
 } from "./js/localStorage.js";
 
 const titleRow = document.getElementById("title-row");
@@ -10,7 +10,17 @@ table.addEventListener("click", (e) => {
 });
 
 async function getStudentsClass(teacherName, callback) {
-  // getStudentsClass
+
+    // getStudentsClass
+    try {
+        const { data: students } = await axios.get(
+            `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
+        );
+        return students;
+    } catch (error) {
+        console.error("Something went wrong", error);
+    }
+}
 
   const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
   if (!dataFromLocalStorage)
@@ -28,34 +38,40 @@ async function getStudentsClass(teacherName, callback) {
 }
 
 const createTitleRow = (keys) => {
-  Object.keys(keys).forEach((title) => {
-    const th = document.createElement("th");
-    th.innerText = title;
-    titleRow.appendChild(th);
-  });
+    Object.keys(keys).forEach((title) => {
+        const th = document.createElement("th");
+        th.innerText = title;
+        titleRow.appendChild(th);
+    });
 };
 
-// const createButtons = (tableRow) => {
-//   const btn = document.createElement("button");
-//   btn.innerHTML = "Edit";
-//   tableRow.appendChild(btn);
-// };
+const createButtons = (tableRow) => {
+    const btnEdit = document.createElement("button");
+    const btnDelete = document.createElement("button");
+    btnEdit.innerHTML = "Edit";
+    btnDelete.innerHTML = "delete";
+    tableRow.appendChild(btnEdit);
+    tableRow.appendChild(btnDelete);
+
+};
 
 const createRow = (students) => {
-  createTitleRow(students[0]);
-  for (const studentObject of students) {
-    // Change it later
-    const tr = document.createElement("tr");
-    for (const key in studentObject) {
-      const td = document.createElement("td");
-      td.innerText = studentObject[key];
-      tr.appendChild(td);
-    }
-    // createButtons(tr);
+    createTitleRow(students[0]);
+    for (const studentObject of students) {
+        // Change it later
+        const tr = document.createElement("tr");
+        for (const key in studentObject) {
+            const td = document.createElement("td");
+            td.innerText = studentObject[key];
+            tr.appendChild(td);
+        }
+        createButtons(tr);
 
-    table.appendChild(tr);
-  }
+
+        table.appendChild(tr);
+    }
 };
+
 
 const getStudents = async () => {
   const students = await getStudentsClass("toam");
@@ -80,6 +96,7 @@ const getStudents = async () => {
       console.log("Something went wrong", error);
     }
   } else createRow(dataFromLocalStorage);
+
 };
 
 getStudents();
