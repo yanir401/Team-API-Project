@@ -7,6 +7,9 @@ const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
 const header = document.getElementById("header");
 
+table.addEventListener("click", (e) => {
+  console.log(e.target.parentElement);
+});
 const h2 = document.createElement("h2");
 h2.innerText = "My Capsule";
 header.appendChild(h2);
