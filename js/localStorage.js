@@ -1,8 +1,8 @@
-export function saveIntoLocalStorage(object) {
+export function saveIntoLocalStorage(object, objectName) {
   const objSerialized = JSON.stringify(object);
-  localStorage.setItem("data", objSerialized);
+  localStorage.setItem(objectName, objSerialized);
 }
 
-export function getDataFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("data"));
+export function getDataFromLocalStorage(storageName) {
+  return JSON.parse(localStorage.getItem(storageName));
 }
