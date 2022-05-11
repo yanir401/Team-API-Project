@@ -5,30 +5,27 @@ import {
 
 const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
+table.addEventListener("click", (e) => {
+  console.dir(e.parentElement);
+});
 
 async function getStudentsClass(teacherName, callback) {
   // getStudentsClass
-  try {
-    const { data: students } = await axios.get(
-      `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
-    );
-    return students;
-  } catch (error) {
-    console.error("Something went wrong", error);
-  }
-}
 
-// for (const student of students) {
-//     // sync of async ????
-//     const res = await axios.get(
-//       ` https://capsules-asb6.herokuapp.com/api/user/${student.id}`
-//     );
-//     //   console.log(res.data);
-//     const th = document.createElement("th");
-//     const titleText = Object.keys(res.data);
-//     console.log(titleText);
-//     titleRow.innerHTML += `${res.data.firstName}<br>`;
-//   }
+  const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
+  if (!dataFromLocalStorage)
+    try {
+      const { data: students } = await axios.get(
+        `https://capsules-asb6.herokuapp.com/api/teacher/${teacherName}`
+      );
+      saveIntoLocalStorage(students, "StudentsClass");
+
+      return students;
+    } catch (error) {
+      console.error("Something went wrong", error);
+    }
+  else return dataFromLocalStorage;
+}
 
 const createTitleRow = (keys) => {
   Object.keys(keys).forEach((title) => {
@@ -62,7 +59,7 @@ const createRow = (students) => {
 
 const getStudents = async () => {
   const students = await getStudentsClass("toam");
-  const dataFromLocalStorage = getDataFromLocalStorage();
+  const dataFromLocalStorage = getDataFromLocalStorage("students");
   if (!dataFromLocalStorage) {
     titleRow.innerHTML = "Loading....";
     console.log("call Api");
@@ -76,17 +73,13 @@ const getStudents = async () => {
       );
       titleRow.innerHTML = "";
       const data = responses.map((result) => result.data); // data from response all
-      saveIntoLocalStorage(data);
+      saveIntoLocalStorage(data, "students");
 
       createRow(data);
     } catch (error) {
       console.log("Something went wrong", error);
     }
-  } else {
-    console.log("call Local Storage");
-
-    createRow(dataFromLocalStorage);
-  }
+  } else createRow(dataFromLocalStorage);
 };
 
 getStudents();
