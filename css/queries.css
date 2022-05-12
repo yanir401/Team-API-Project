@@ -8,7 +8,7 @@
     font-size: 10px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   #container {
     display: none;
   }
