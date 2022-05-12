@@ -7,9 +7,7 @@ const titleRow = document.getElementById("title-row");
 const table = document.getElementById("table");
 const header = document.getElementById("header");
 
-table.addEventListener("click", (e) => {
-  console.log(e.target.parentElement);
-});
+table.addEventListener("click", (e) => {});
 const h2 = document.createElement("h2");
 h2.innerText = "My Capsule";
 header.appendChild(h2);
@@ -112,12 +110,15 @@ const createTitleRow = (keys) => {
   }
 };
 
+function handleDelete() {
+  this.parentElement.remove();
+}
 const createButtons = (tableRow) => {
   const btnEdit = document.createElement("button");
   const btnDelete = document.createElement("button");
   btnEdit.innerHTML = "Edit";
   btnDelete.innerHTML = "delete";
-
+  btnDelete.addEventListener("click", handleDelete);
   tableRow.appendChild(btnEdit);
   tableRow.appendChild(btnDelete);
 };
