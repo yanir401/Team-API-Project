@@ -92,3 +92,10 @@ tr:nth-child(odd) {
   align-items: center;
   justify-content: center;
 }
+
+button {
+  padding: 0.35rem 1rem;
+  margin: 0.25rem;
+  background-color: #d2dfe3;
+  cursor: pointer;
+}
