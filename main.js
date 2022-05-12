@@ -17,7 +17,7 @@ header.appendChild(h2);
 const input = document.createElement("input");
 input.type = "text";
 input.placeholder = "Search...";
-const arrayOfStudents = getDataFromLocalStorage("students");
+// const arrayOfStudents = getDataFromLocalStorage("students");
 
 const handleInput = (event) => {
   const inputValue = event.target.value;
@@ -28,13 +28,10 @@ const handleInput = (event) => {
       if (convertString.includes(inputValue)) filteredArr.push(student);
     }
   });
-  console.log(filteredArr);
   while (table.children.length > 1) {
     // if (table.lastChild.nodeName !== "TBODY")
-    console.log(table.lastChild);
     table.removeChild(table.lastChild);
   }
-  console.log(table);
   createRow(filteredArr);
   // for (const iterator of filteredArr) {
   //   const tr = document.createElement("tr");
@@ -50,32 +47,32 @@ const handleInput = (event) => {
   // }
 };
 
-input.addEventListener("input", handleInput);
-
 header.appendChild(input);
 const arrayOfStudents = getDataFromLocalStorage("students");
 
-const handleInput = (event) => {
-  const inputValue = event.target.value;
-  const filteredArr = [];
-  arrayOfStudents.forEach((student) => {
-    for (const key in student) {
-      const convertString = "" + student[key];
-      if (convertString.includes(inputValue)) filteredArr.push(student);
-    }
-  });
-  [...table.children].forEach((child, i) => {
-    console.log(child);
-    console.log(filteredArr[i]);
-    // if (child.firstChild.localName !== "tr") {
-    //   const idElement = child.firstChild;
-    //   console.log(idElement, filteredArr[i].id);
-    //   if (idElement !== filteredArr[i].id) {
-    //     child.remove();
-    //   }
-    // } else i -= 1;
-  });
-};
+// const handleInput = (event) => {
+//   const inputValue = event.target.value;
+//   const filteredArr = [];
+//   arrayOfStudents.forEach((student) => {
+//     for (const key in student) {
+//       const convertString = "" + student[key];
+//       if (convertString.includes(inputValue)) filteredArr.push(student);
+//     }
+//   });
+//   [...table.children].forEach((child, i) => {
+//     console.log(child);
+//     console.log(filteredArr[i]);
+//     // if (child.firstChild.localName !== "tr") {
+//     //   const idElement = child.firstChild;
+//     //   console.log(idElement, filteredArr[i].id);
+//     //   if (idElement !== filteredArr[i].id) {
+//     //     child.remove();
+//     //   }
+//     // } else i -= 1;
+//   });
+// };
+
+input.addEventListener("input", handleInput);
 
 input.addEventListener("input", handleInput);
 
@@ -113,7 +110,6 @@ const createTitleRow = (keys) => {
     titleRow.appendChild(th);
     header.appendChild(select);
   }
-
 };
 
 const createButtons = (tableRow) => {
