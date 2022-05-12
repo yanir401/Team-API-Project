@@ -53,6 +53,31 @@ const handleInput = (event) => {
 input.addEventListener("input", handleInput);
 
 header.appendChild(input);
+const arrayOfStudents = getDataFromLocalStorage("students");
+
+const handleInput = (event) => {
+  const inputValue = event.target.value;
+  const filteredArr = [];
+  arrayOfStudents.forEach((student) => {
+    for (const key in student) {
+      const convertString = "" + student[key];
+      if (convertString.includes(inputValue)) filteredArr.push(student);
+    }
+  });
+  [...table.children].forEach((child, i) => {
+    console.log(child);
+    console.log(filteredArr[i]);
+    // if (child.firstChild.localName !== "tr") {
+    //   const idElement = child.firstChild;
+    //   console.log(idElement, filteredArr[i].id);
+    //   if (idElement !== filteredArr[i].id) {
+    //     child.remove();
+    //   }
+    // } else i -= 1;
+  });
+};
+
+input.addEventListener("input", handleInput);
 
 async function getStudentsClass(teacherName, callback) {
   const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
@@ -82,11 +107,13 @@ const createTitleRow = (keys) => {
       option.innerText = title;
       select.appendChild(option);
     });
+
     const th = document.createElement("th");
     th.colSpan = "1";
     titleRow.appendChild(th);
     header.appendChild(select);
   }
+
 };
 
 const createButtons = (tableRow) => {
