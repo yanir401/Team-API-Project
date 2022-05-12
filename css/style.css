@@ -56,9 +56,9 @@ table {
   text-align: center;
   width: 100%;
 }
+
 table th {
-  font-size: 1.5rem;
-  background-color: #a0bcc2;
+  font-size: 1.25rem;
 }
 
 table tr th:first-child {
@@ -66,6 +66,9 @@ table tr th:first-child {
 }
 table tr th:last-child {
   border-top-right-radius: 10px;
+}
+#title-row {
+  background-color: #a0bcc2;
 }
 
 th,

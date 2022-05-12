@@ -17,6 +17,41 @@ header.appendChild(h2);
 const input = document.createElement("input");
 input.type = "text";
 input.placeholder = "Search...";
+const arrayOfStudents = getDataFromLocalStorage("students");
+
+const handleInput = (event) => {
+  const inputValue = event.target.value;
+  const filteredArr = [];
+  arrayOfStudents.forEach((student) => {
+    for (const key in student) {
+      const convertString = "" + student[key];
+      if (convertString.includes(inputValue)) filteredArr.push(student);
+    }
+  });
+  console.log(filteredArr);
+  while (table.children.length > 1) {
+    // if (table.lastChild.nodeName !== "TBODY")
+    console.log(table.lastChild);
+    table.removeChild(table.lastChild);
+  }
+  console.log(table);
+  createRow(filteredArr);
+  // for (const iterator of filteredArr) {
+  //   const tr = document.createElement("tr");
+
+  //   for (const key in iterator) {
+  //     const td = document.createElement("td");
+  //     td.innerText = iterator[key];
+  //     tr.appendChild(td);
+  //   }
+  //   createButtons(tr);
+
+  //   table.appendChild(tr);
+  // }
+};
+
+input.addEventListener("input", handleInput);
+
 header.appendChild(input);
 const arrayOfStudents = getDataFromLocalStorage("students");
 
@@ -62,24 +97,23 @@ async function getStudentsClass(teacherName, callback) {
 
 //change it later
 const createTitleRow = (keys) => {
-  const select = document.createElement("select");
-  // const firstOption = document.createElement("firstOption");/ why not working -?
-  // firstOption.innerText = "Everything";
-  // select.appendChild(firstOption);
-  Object.keys(keys).forEach((title) => {
-    const th = document.createElement("th");
-    th.innerText = title;
-    titleRow.appendChild(th);
-    const option = document.createElement("option");
-    option.innerText = title;
-    select.appendChild(option);
-  });
-  header.appendChild(select);
+  if (!titleRow.children.length > 0) {
+    const select = document.createElement("select");
+    Object.keys(keys).forEach((title) => {
+      const th = document.createElement("th");
+      th.innerText = title;
+      titleRow.appendChild(th);
+      const option = document.createElement("option");
+      option.innerText = title;
+      select.appendChild(option);
+    });
 
-  const restartButton = document.createElement("button");
-  restartButton.className = "restartButton";
-  restartButton.innerText = "Restart";
-  header.appendChild(restartButton);
+    const th = document.createElement("th");
+    th.colSpan = "1";
+    titleRow.appendChild(th);
+    header.appendChild(select);
+  }
+
 };
 
 const createButtons = (tableRow) => {
@@ -87,6 +121,7 @@ const createButtons = (tableRow) => {
   const btnDelete = document.createElement("button");
   btnEdit.innerHTML = "Edit";
   btnDelete.innerHTML = "delete";
+
   tableRow.appendChild(btnEdit);
   tableRow.appendChild(btnDelete);
 };
@@ -105,6 +140,10 @@ const createRow = (students) => {
     createButtons(tr);
     table.appendChild(tr);
   }
+  const test = getDataFromLocalStorage("students");
+  // test[0].id = 433;
+  // saveIntoLocalStorage(test, "students");
+  // console.log(test[0]);
 };
 
 const getStudents = async () => {
