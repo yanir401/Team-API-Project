@@ -15,6 +15,31 @@ const input = document.createElement("input");
 input.type = "text";
 input.placeholder = "Search...";
 header.appendChild(input);
+const arrayOfStudents = getDataFromLocalStorage("students");
+
+const handleInput = (event) => {
+  const inputValue = event.target.value;
+  const filteredArr = [];
+  arrayOfStudents.forEach((student) => {
+    for (const key in student) {
+      const convertString = "" + student[key];
+      if (convertString.includes(inputValue)) filteredArr.push(student);
+    }
+  });
+  [...table.children].forEach((child, i) => {
+    console.log(child);
+    console.log(filteredArr[i]);
+    // if (child.firstChild.localName !== "tr") {
+    //   const idElement = child.firstChild;
+    //   console.log(idElement, filteredArr[i].id);
+    //   if (idElement !== filteredArr[i].id) {
+    //     child.remove();
+    //   }
+    // } else i -= 1;
+  });
+};
+
+input.addEventListener("input", handleInput);
 
 async function getStudentsClass(teacherName, callback) {
   const dataFromLocalStorage = getDataFromLocalStorage("StudentsClass");
@@ -35,8 +60,9 @@ async function getStudentsClass(teacherName, callback) {
 //change it later
 const createTitleRow = (keys) => {
   const select = document.createElement("select");
-  // select.innerText = "Everything";
-  // header.appendChild(select);
+  // const firstOption = document.createElement("firstOption");/ why not working -?
+  // firstOption.innerText = "Everything";
+  // select.appendChild(firstOption);
   Object.keys(keys).forEach((title) => {
     const th = document.createElement("th");
     th.innerText = title;
@@ -46,6 +72,11 @@ const createTitleRow = (keys) => {
     select.appendChild(option);
   });
   header.appendChild(select);
+
+  const restartButton = document.createElement("button");
+  restartButton.className = "restartButton";
+  restartButton.innerText = "Restart";
+  header.appendChild(restartButton);
 };
 
 const createButtons = (tableRow) => {

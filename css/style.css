@@ -15,6 +15,38 @@
   flex-direction: column;
   background-color: #f9f8eb;
 }
+#header {
+  width: 50vw;
+  height: 100px;
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+h2 {
+  color: rgb(117, 115, 112);
+}
+input {
+  font-size: 20px;
+  background-color: beige;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+select {
+  font-size: 20px;
+  background-color: beige;
+  border-radius: 5px;
+  padding: 7px;
+}
+.restartButton {
+  font-size: 20px;
+  padding: 7px;
+
+  border-radius: 8px 40px 40px 8px;
+}
+
 table {
   font-size: 1.25rem;
   border: none;
